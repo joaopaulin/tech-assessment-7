@@ -35,6 +35,10 @@ POST /products/019a3b46-54d7-76bf-8753-077cfa8d030a/discounts
 
 Após a análise do projeto, no arquivo `/tech-assessment-7/src/modules/discounts/routes/index.ts` foi verificado que a rota `POST "/products/uuid/discounts"` deveria fazer a criação de um Cupom de desconto, porém estavam sendo aceitos cupons com o mesmo código, fazendo o sistema se confundir e sempre pegar o primeiro cadastrado na chamada a `GET "/products/<uuid>/discounts/<código>"`, não importando se o valor do desconto é diferente. Foi feita a correção no arquivo `/tech-assessment-7/src/modules/discounts/features/createDiscount/CreateDiscountUseCase.ts` que representa o caso de uso da feature `createDiscount`, passando a lançar a excessão `UnableToCreateDiscountError` sempre que já existe Cupom de desconto com o mesmo código que se tenta criar.
 
+Achei curioso que mesmo colocando uma mensagem de erro na excessão `UnableToCreateDiscountError` o erro apresentado no console ao impedir a criação duplicada foi `{"message":"Internal Server Error"}`:
+
+!(screen.jpg)
+ 
 ### 2. Crie um teste que garanta que não haverá regressão do problema apresentado.
 
 O teste para sempre verificar se o caso de uso está impedindo a criação de Cupons de desconto com o mesmo código seria colocado na pasta `/tech-assessment-7/src/modules/discounts/features/createDiscount` com o nome `CreateDiscountUseCase.spec.ts` conforme especificado em `/tech-assessment-7/vitest.config.ts`.
