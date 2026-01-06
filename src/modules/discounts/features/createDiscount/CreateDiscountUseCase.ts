@@ -32,7 +32,7 @@ export class CreateDiscountUseCase implements UseCase<CreateDiscountRequest, Cre
         expiresAt
       };
     } else {
-      throw new UnableToCreateDiscountError("Já existe desconto com o código " + code);
+      throw new UnableToCreateDiscountError("Já existe desconto com o código " + code + ".");
     }
   }
 }
