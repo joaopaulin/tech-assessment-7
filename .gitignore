@@ -18,3 +18,5 @@ var
 code-tests/
 prisma
 .tool-versions
+yarn.lock
+package-lock.json

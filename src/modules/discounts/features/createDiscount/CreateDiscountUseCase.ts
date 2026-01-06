@@ -9,24 +9,30 @@ export class CreateDiscountUseCase implements UseCase<CreateDiscountRequest, Cre
 
   async execute(input: CreateDiscountRequest): Promise<CreateDiscountResponse> {
     const { productUuid, code, type, value, status, expiresAt } = input;
-    const discount = new Discount({
-      productUuid,
-      code,
-      type,
-      value,
-      status: status ?? true,
-      expiresAt: expiresAt ? new Date(expiresAt) : null
-    });
-    await this.discountsRepository.create(discount);
+    const discount = await this.discountsRepository.findByCode(code);
 
-    return {
-      uuid: discount.uuid,
-      productUuid,
-      code,
-      type,
-      value,
-      status, // BUG: Should return discount.status instead of input status
-      expiresAt
-    };
+    if (!discount) {
+      const discount = new Discount({
+        productUuid,
+        code,
+        type,
+        value,
+        status: status ?? true,
+        expiresAt: expiresAt ? new Date(expiresAt) : null
+      });
+      await this.discountsRepository.create(discount);
+
+      return {
+        uuid: discount.uuid,
+        productUuid,
+        code,
+        type,
+        value,
+        status, // BUG: Should return discount.status instead of input status
+        expiresAt
+      };
+    } else {
+      throw new UnableToCreateDiscountError("Já existe desconto com o código " + code);
+    }
   }
 }
