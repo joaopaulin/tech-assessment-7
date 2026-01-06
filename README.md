@@ -37,7 +37,7 @@ Após a análise do projeto, no arquivo `/tech-assessment-7/src/modules/discount
 
 Achei curioso que mesmo colocando uma mensagem de erro na excessão `UnableToCreateDiscountError` o erro apresentado no console ao impedir a criação duplicada foi `{"message":"Internal Server Error"}`:
 
-!(screen.jpg)
+![Tela](screen.jpg)
  
 ### 2. Crie um teste que garanta que não haverá regressão do problema apresentado.
 
